@@ -15,7 +15,7 @@ void syscall_tbl_fetch(void)
 {
     sys_call_table = (unsigned long *)symbol_retrieve("sys_call_table");
     memcpy(sys_call_table_backup, sys_call_table, __NR_syscall_tbl_max + 1);
-    set_addr_rw((unsigned long)sys_call_table);
+    set_addr_rw(sys_call_table);
 }
 
 void syscall_tbl_set_entry(int n, void *fct)
@@ -47,7 +47,7 @@ void ia32_syscall_tbl_fetch(void)
 {
     ia32_sys_call_table = (unsigned long *)symbol_retrieve("ia32_sys_call_table");
     memcpy(ia32_sys_call_table_backup, ia32_sys_call_table, __NR_syscall_tbl_max + 1);
-    set_addr_rw((unsigned long)ia32_sys_call_table);
+    set_addr_rw(ia32_sys_call_table);
 }
 
 void ia32_syscall_tbl_set_entry(int n, void *fct)

@@ -69,7 +69,7 @@ void idt_restore(void)
     cur_idt_table = old_idt_table;
 }
 
-unsigned long idt_addr(void)
+void *idt_addr(void)
 {
-    return (unsigned long)cur_idt_table;
+    return (void *)cur_idt_table;
 }

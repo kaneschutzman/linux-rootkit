@@ -2,7 +2,6 @@
 # define ROOTKIT_HOOK_H
 
 # include <linux/types.h>
-# include <linux/list.h>
 
 struct in_hook {
     uint8_t payload[32];

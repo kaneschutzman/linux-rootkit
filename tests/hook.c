@@ -29,12 +29,11 @@ void test_hook(void)
     cnt = 0;
     thook_enable(hk);
     ret = foo_ptr(0);
-    assert(cnt == 2);
-    assert(ret == 1);
+    assert(cnt == 2, "hook RO is executed");
+    assert(ret == 1, "hook RO does not modify values");
 
     cnt = 0;
     thook_disable(hk);
     ret = foo_ptr(0);
-    assert(cnt == 1);
-    assert(ret == 1);
+    assert(cnt == 1 && ret == 1, "hook RO is disabled");
 }

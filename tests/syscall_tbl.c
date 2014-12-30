@@ -32,7 +32,7 @@ void test_syscall_tbl(void)
     cnt = 0;
     argv[0] = "/root/rk/test_syscall_tbl_64";
     user_land_exec(argv);
-    assert(cnt != 0);
+    assert(cnt != 0, "sys_call_table change entry");
     syscall_tbl_restore_entry(nr_write);
 
     /* i386 */
@@ -41,6 +41,6 @@ void test_syscall_tbl(void)
     cnt = 0;
     argv[0] = "/root/rk/test_syscall_tbl_32";
     user_land_exec(argv);
-    assert(cnt != 0);
+    assert(cnt != 0, "ia32_sys_call_table change entry");
     ia32_syscall_tbl_restore_entry(ia32_nr_write);
 }

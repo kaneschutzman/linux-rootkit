@@ -28,7 +28,7 @@ void test_idt_hijacking(void)
     cnt = 0;
     argv[0] = "/root/rk/test_syscall_tbl_32";
     user_land_exec(argv);
-    assert(cnt != 0);
+    assert(cnt != 0, "IDT entry 0x80 executed");
     idt_set_entry(orig_my_hk, 0x80);
     set_addr_ro(idt_addr());
 
@@ -38,6 +38,6 @@ void test_idt_hijacking(void)
     cnt = 0;
     argv[0] = "/root/rk/test_syscall_tbl_32";
     user_land_exec(argv);
-    assert(cnt != 0);
+    assert(cnt != 0, "IDT table changed");
     idt_restore();
 }

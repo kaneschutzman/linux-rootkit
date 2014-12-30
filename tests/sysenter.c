@@ -17,10 +17,10 @@ void test_sysenter(void)
     sysenter_entry_hook(my_sysenter_hook);
     cnt = 0;
     user_land_exec(argv);
-    assert(cnt != 0);
+    assert(cnt != 0, "sysenter entry hijacked");
 
     cnt = 0;
     sysenter_entry_restore();
     user_land_exec(argv);
-    assert(cnt == 0);
+    assert(cnt == 0, "sysenter entry restored");
 }

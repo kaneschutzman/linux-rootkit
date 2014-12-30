@@ -9,10 +9,12 @@ rootkit-objs := src/module.o              \
 		src/memory.o              \
 		src/hook_inline.o         \
 		src/symbol.o              \
+		src/idt.o                 \
 		tests/inline_hooking.o    \
 		tests/syscall_tbl.o       \
 		tests/hook.o              \
-		tests/userland.o
+		tests/userland.o          \
+		tests/idt.o
 
 default:
 	$(MAKE) -C $(KDIR) M=$(PWD) modules

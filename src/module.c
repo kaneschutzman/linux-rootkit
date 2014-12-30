@@ -1,16 +1,9 @@
 #include "log.h"
+#include "symbol.h"
+#include "../tests/tests.h"
 
 #include <linux/module.h>
 #include <linux/kernel.h>
-#include <linux/sched.h>
-#include <linux/kallsyms.h>
-#include <asm/cacheflush.h>
-#include <linux/semaphore.h>
-#include <linux/slab.h>
-
-#include "symbol.h"
-
-#include "../tests/tests.h"
 
 static int __init rootkit_init_module(void)
 {
@@ -22,11 +15,11 @@ static int __init rootkit_init_module(void)
     test_hook();
     test_syscall_tbl();
     test_idt_hijacking();
+    test_sysenter();
 
     return 0;
 }
 
-extern int g_schischi;
 static void __exit rootkit_cleanup_module(void)
 {
 }

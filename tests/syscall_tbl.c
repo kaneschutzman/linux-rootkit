@@ -9,7 +9,7 @@
 #include <asm/uaccess.h>
 
 size_t(*orig_write)(int, const void *, size_t);
-int cnt = 0;
+static int cnt = 0;
 
 noinline ssize_t my_write(int fd, const void *buf, size_t n)
 {

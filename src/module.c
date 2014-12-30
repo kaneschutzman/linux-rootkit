@@ -8,7 +8,6 @@
 #include <linux/semaphore.h>
 #include <linux/slab.h>
 
-#include "sys_call_table.h"
 #include "symbol.h"
 
 #include "../tests/tests.h"
@@ -21,6 +20,7 @@ static int __init rootkit_init_module(void)
     /* Run some tests */
     test_inline_hooking();
     test_hook();
+    test_syscall_tbl();
 
     return 0;
 }

@@ -11,11 +11,13 @@ rootkit-objs := src/module.o              \
 		src/symbol.o              \
 		src/idt.o                 \
 		src/sysenter.o            \
+		src/debug_reg.o           \
 		tests/inline_hooking.o    \
 		tests/syscall_tbl.o       \
 		tests/hook.o              \
 		tests/userland.o          \
 		tests/idt.o               \
+		tests/debug_reg.o         \
 		tests/sysenter.o
 
 default:

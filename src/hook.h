@@ -3,7 +3,9 @@
 
 # define SAVE_REGS                                   \
     "pushfq                \n"                       \
-    "push      %%rsp       \n"                       \
+    "push      %%rax       \n"                       \
+    "push      %%rax       \n"                       \
+    "push      %%rax       \n"                       \
     "push      %%rdi       \n"                       \
     "push      %%rsi       \n"                       \
     "push      %%rdx       \n"                       \
@@ -36,10 +38,12 @@
     "pop       %%rdx       \n"                       \
     "pop       %%rsi       \n"                       \
     "pop       %%rdi       \n"                       \
-    "pop       %%rsp       \n"                       \
+    "pop       %%rax       \n"                       \
+    "pop       %%rax       \n"                       \
+    "pop       %%rax       \n"                       \
     "popfq                 \n"
 
-# define create_hook_reg(Name)                       \
+# define create_hook_rw(Name)                        \
     static unsigned long orig_##Name;                \
     static unsigned long hook_##Name;                \
     extern asmlinkage void Name(void);               \
@@ -53,22 +57,6 @@
             "mov %%rsp, %%rdi\n"                     \
             "call *%1\n"                             \
             RESTORE_REGS                             \
-            "jmp *%0\n"                              \
-            :: "m"(orig_##Name), "m"(hook_##Name));  \
-    }
-
-//FIXME: no new stack frame
-# define create_hook_rw(Name)                        \
-    static unsigned long orig_##Name;                \
-    static unsigned long hook_##Name;                \
-    extern asmlinkage void Name(void);               \
-    void __unused_##Name(void)                       \
-    {                                                \
-        asm volatile (                               \
-            ".globl "#Name"\n"                       \
-            ".align 8, 0x90\n"                       \
-            #Name":\n"                               \
-            "call *%1\n"                             \
             "jmp *%0\n"                              \
             :: "m"(orig_##Name), "m"(hook_##Name));  \
     }

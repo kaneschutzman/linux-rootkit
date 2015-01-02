@@ -33,14 +33,14 @@ void idt_set_entry(unsigned long addr, int n)
         set_addr_ro(old_idt_table);
 }
 
-static inline void store_idt(struct desc_ptr *dtr)
+static void local_store_idt(void *dtr)
 {
-    asm volatile("sidt %0":"=m" (*dtr));
+    asm volatile("sidt %0":"=m" (*((struct desc_ptr *)dtr)));
 }
 
-static inline void load_idt(const struct desc_ptr *dtr)
+static void local_load_idt(void *dtr)
 {
-    asm volatile("lidt %0"::"m" (*dtr));
+    asm volatile("lidt %0"::"m" (*((struct desc_ptr *)dtr)));
 }
 
 void idt_init(void)
@@ -49,7 +49,7 @@ void idt_init(void)
 
     if (cur_idt_table)
         return;
-    store_idt(&idtr);
+    on_each_cpu(local_store_idt, &idtr, 1);
     old_idt_table = (struct gate_struct64 *)idtr.address;
     idt_size = idtr.size;
     cur_idt_table = old_idt_table;
@@ -62,7 +62,7 @@ void idt_substitute(void)
     memcpy(new_idt_table, cur_idt_table, IDT_SZ);
     idtr.address = (unsigned long)new_idt_table;
     idtr.size = idt_size;
-    load_idt(&idtr);
+    on_each_cpu(local_load_idt, &idtr, 1);
     cur_idt_table = new_idt_table;
 }
 
@@ -72,7 +72,7 @@ void idt_restore(void)
 
     idtr.address = (unsigned long)old_idt_table;
     idtr.size = idt_size;
-    load_idt(&idtr);
+    on_each_cpu(local_load_idt, &idtr, 1);
     cur_idt_table = old_idt_table;
 }
 

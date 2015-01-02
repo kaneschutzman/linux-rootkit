@@ -32,6 +32,11 @@ void __unused_sysenter_hook(void)
           "m"(hook_sysenter));
 }
 
+static void local_wrmsrl_sysenter_eip(void *data)
+{
+    wrmsrl(MSR_IA32_SYSENTER_EIP, (unsigned long)data);
+}
+
 void sysenter_entry_hook(void *hook)
 {
     unsigned long ip;
@@ -42,10 +47,10 @@ void sysenter_entry_hook(void *hook)
     orig_sysenter = ip + 3;
     hook_sysenter = (unsigned long)hook;
 
-    wrmsrl(MSR_IA32_SYSENTER_EIP, sysenter_fake_dispatcher);
+    on_each_cpu(local_wrmsrl_sysenter_eip, (void*)sysenter_fake_dispatcher, 1);
 }
 
 void sysenter_entry_restore(void)
 {
-    wrmsrl(MSR_IA32_SYSENTER_EIP, orig_sysenter - 3);
+    on_each_cpu(local_wrmsrl_sysenter_eip, (void*)(orig_sysenter - 3), 1);
 }

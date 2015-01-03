@@ -22,8 +22,6 @@ void test_debug_reg(void)
 {
     int bp;
 
-    idt_init();
-
 #if 1
     /* Inline hook do_debug */
     hcnt = fcnt = 0;

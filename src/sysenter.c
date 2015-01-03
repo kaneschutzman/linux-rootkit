@@ -24,6 +24,7 @@ void __unused_sysenter_hook(void)
         "mov $stack_sysenter + ("SYSENTER_STACK_TOP"), %%rsp\n"
         "add %%gs:this_cpu_off, %%rsp\n"
         SAVE_REGS
+        "mov %%rsp, %%rdi\n"
         "call *%1\n"
         RESTORE_REGS
         "jmp *%0\n"

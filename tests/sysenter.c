@@ -5,7 +5,7 @@
 
 static int cnt = 0;
 
-noinline void my_sysenter_hook(void)
+noinline void my_sysenter_hook(struct pt_regs *regs)
 {
     ++cnt;
 }

@@ -1,0 +1,51 @@
+Methods
+=======
+  symbol searching:
+    [x] kallsyms
+    [x] pattern configurable
+    [x] custom function
+    [x] preset
+    [-] System.map
+  page permissions
+    [x] pte
+    [x] cr0
+  inline hooking:
+    [x] relative jump
+    [x] push/ret 32
+    [x] push/ret 64
+    [x] rip relative
+  KDOM (ptr subterfuge)
+    [x] MITM fct ptr
+    [-] pattern patching
+  debug registers
+    [-] debug registers
+        hook:
+          [-] change IDT 1
+          [x] inline hook do_debug
+          [-] pattern change call do_debug
+        hiding:
+          [-] nothing
+          [-] rip += 3
+          [-] remove and restore later (watch our hook ?)
+  sys_call_hijacking
+    [x] idt table (ia32, 64)
+    [x] int80 (idtr)
+       [-] wrapper like sysenter
+    [x] sysenter
+    [-] syscall
+
+Features
+========
+  processes hiding
+    [-] procfs, change ptr readdir (KDOM)
+    [-] inline hook proc_readdir_de (IH)
+    [-] syscall readdir (SH)
+
+Symbols
+=======
+    [-] do_debug
+    [-] sys_call_table (reduce range)
+
+Misc
+====
+    [-] SMP safe ? (inline hooking…)

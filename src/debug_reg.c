@@ -98,7 +98,7 @@ static noinline void fake_int1_handler(struct pt_regs *regs, long err)
         if (bp[i].state == ENABLED && dr6 & (1 << i)) {
             dr6 &= ~(1 << i);
             regs->flags |= X86_EFLAGS_RF;
-            //regs->flags &= ~X86_EFLAGS_TF;
+            regs->flags &= ~X86_EFLAGS_TF;
             if (bp[i].hdlr)
                 bp[i].hdlr(regs, err);
             __debug_reg_set(6, dr6);
@@ -182,8 +182,6 @@ static noinline void disable_hdlr_hook(struct pt_regs *regs, long err)
 
 static noinline void enable_hdlr_hook(struct pt_regs *regs, long err)
 {
-    unsigned long dr6, dr7;
-
     do_debug_fct(regs, err);
     inline_hook_enable(&do_debug_inline_hk);
 }
@@ -212,9 +210,9 @@ void debug_register_hijack_handler(int _hook_method)
                     (unsigned long)fake_int1_handler);
             if (!idt_spoofed())
                 idt_substitute();
-            pr_log("orig = 0x%p\n", orig_int1_handler);
-            pr_log("fake = 0x%p\n", fake_int1_handler);
-            pr_log("gate = 0x%p\n", do_debug_hk);
+            //pr_log("orig = 0x%p\n", orig_int1_handler);
+            //pr_log("fake = 0x%p\n", fake_int1_handler);
+            //pr_log("gate = 0x%p\n", do_debug_hk);
         case IDT_ENTRY:
             idt_set_entry(do_debug_hk, 0x1);
             break;

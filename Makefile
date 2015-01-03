@@ -12,13 +12,15 @@ rootkit-objs := src/module.o              \
 		src/idt.o                 \
 		src/sysenter.o            \
 		src/debug_reg.o           \
+		src/features/process_hiding.o \
 		tests/inline_hooking.o    \
 		tests/syscall_tbl.o       \
 		tests/hook.o              \
 		tests/userland.o          \
 		tests/idt.o               \
 		tests/debug_reg.o         \
-		tests/sysenter.o
+		tests/sysenter.o          \
+		tests/features/process_hiding.o
 
 default:
 	$(MAKE) -C $(KDIR) M=$(PWD) modules

